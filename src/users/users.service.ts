@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { userType } from 'src/types/types';
 
 @Injectable()
 export class UsersService {
-  private users = [
+  private users: userType[] = [
     {
       id: 'Dune',
       name: 'Frank Herbert',
@@ -54,7 +55,19 @@ export class UsersService {
       year: 2011,
     },
   ];
-  getUsers() {
-    return this.users
+  getUsers(): userType[] {
+    return this.users;
+  }
+  cretaeUser(user: userType): userType {
+    this.users.push(user);
+    return user;
+  }
+  updateUser(user:userType) {
+    console.log("user update",user);
+    
+    return this.users[0];
+  }
+  deleteUser() {
+    return this.users[0].name;
   }
 }
