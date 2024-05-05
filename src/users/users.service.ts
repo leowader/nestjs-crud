@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { userType } from 'src/types/types';
+import { updateUser } from './dto/userUpdate.dto';
+import { createUser } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
-  private users: userType[] = [
+  private users: createUser[] = [
     {
       id: 'Dune',
       name: 'Frank Herbert',
@@ -55,19 +56,24 @@ export class UsersService {
       year: 2011,
     },
   ];
-  getUsers(): userType[] {
+  getUsers(): createUser[] {
     return this.users;
   }
-  cretaeUser(user: userType): userType {
+  getUser(id: string) {
+    return this.users.find((user) => user.id === id);
+  }
+  cretaeUser(user: createUser): createUser {
     this.users.push(user);
     return user;
   }
-  updateUser(user:userType) {
-    console.log("user update",user);
-    
-    return this.users[0];
+  updateUser(user: updateUser) {
+    const i = this.users.findIndex((us) => us.name === user.name);
+    this.users[i] = user;
+    return { data: `user actualizado correctamente ${user.name}` };
   }
-  deleteUser() {
-    return this.users[0].name;
+  deleteUser(id: string) {
+    const i = this.users.findIndex((user) => user.id === id);
+    this.users.splice(i, 1);
+    return { data: `usuario eliminado` };
   }
 }
